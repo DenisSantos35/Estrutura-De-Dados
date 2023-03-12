@@ -9,6 +9,7 @@ function buscaSequencial(array,fncomp){
     for(let i = 0; i <= tamanhoArray; i++){
         if(fncomp(array[i])) return i;
     }
+    alert('nao  foi encontrado, digite outro nome')
 }
 
 function comparar(obj){
@@ -17,6 +18,7 @@ function comparar(obj){
 function limpeza(){
     input.value = ''
     input.focus()
+    res = ''
 }
 
 btn.addEventListener('click', (e) => {    
