@@ -14,7 +14,7 @@ console.log(listaSequencial(frutas, 'uva'));*/
 
 //ou
 
-function listaSequencial(array, value){
+function listaSequencial(array, value){ //pasamos um array e um valor
     for(let indice in array){
         if(array[indice] === value){
             return indice;
