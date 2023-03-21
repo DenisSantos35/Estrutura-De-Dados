@@ -63,9 +63,6 @@ function escolhaOpcao(){
     return opcao; 
 }
 
-// ==================tratamento da opcao escolhida============
-
-
 //====================opcao selecionada============================
 function opcaoSelecionada(numeroOpcao){
     switch(numeroOpcao){
@@ -81,14 +78,18 @@ function opcaoSelecionada(numeroOpcao){
 //---------------------Cadastramento Alunos -------------------------
 /*DADOS: Os dados/campos a serem armazenados sobre os alunos são: NOME; RA; IDADE;
 SEXO; MÉDIA e RESULTADO (Aprovado/Reprovado).*/
-let nome;
-let idade;
-function cadastro(){    
-    let nomes = []
+let nome, ra, idade, sexo, media, resultado;
+let nomes = []
+function cadastro(){ 
+    
     do{  
         tratamentoNome();
-        tratamentoIdade();    
-        nomes.push({'nome': nome, 'idade': idade});
+        tratamenoRa();
+        tratamentoIdade(); 
+        tratamentoSexo();
+        tratamentoMedia(); 
+        tratamentoStatus(media); 
+        nomes.push({'nome': nome, 'ra': ra, 'idade': idade, 'sexo': sexo, 'media': media, 'resultado': resultado});
         console.log(nomes);    
         //cont = cont + 1;   
     }while(opcaoUsuario()) 
@@ -118,9 +119,53 @@ function tratamentoNome(){
 }
 //=================tratamento de idade ===========================
 function tratamentoIdade(){
-    idade = input('Digite a Idade do Aluno: ')
+    idade = input('Digite a Idade do Aluno entre [7/100]: ')
+    idade = parseInt(idade);
+    while(isNaN(idade) || (idade < 7) || (idade > 100)){
+        console.log('[ERRO]. Idade invalida! Para validar digite uma idade entre 7 e 100');
+        idade = parseInt(input('Digite a Idade do Aluno: '));
+    }
     return idade;
 }
+//=================tratamento sexo ==================================
+function tratamentoSexo(){
+    sexo = input('Digite qual sexo do aluno: [M/F]').toUpperCase().trim();
+    while(sexo != 'M' && sexo != 'F'){
+        console.log('[ERRO]. Sexo invalidp! Para validar digite um o sexo [M] ou [F]');
+        sexo = input('Digite qual sexo do aluno: [M/F]').toUpperCase().trim();
+    }
+
+
+}
+//=====================tratando Média=============================
+
+function tratamentoMedia(){
+    media = input('Digite a média do Aluno entre [0 a 10]:')
+    media = media.split(',')
+    if(media.length > 0){
+        media = media.join('.')
+    }else{
+        media.join('')
+    }
+    media = parseFloat(media);
+    while(isNaN(media) || (media < 0) || (media > 10)){
+        console.log('[ERRO]. Média invalida! Para validar digite uma média entre 0 e 10');
+        media = input('Digite a Idade do Aluno: ');
+    }
+    return media;
+}
+
+//=====================trtamento status aluno =======================
+function tratamentoStatus(media){
+    resultado=" "
+    if(media > 6 ){
+        resultado = 'Aprovado';
+    }else{
+        resultado = 'Reprovado'
+    }
+    return resultado;
+}
+
 
 // ============Mensagem se Deseja cadastrar mais alunos===========
 function opcaoUsuario(){
@@ -132,6 +177,7 @@ function opcaoUsuario(){
     usuario = ''
     return false;
 }
+
 
 //=====================sair do programa =========================
 function sairPrograma(encerrar){
@@ -157,5 +203,6 @@ do{
 
 }while(sairPrograma(sair));
 console.log('fim do programa')
+
 
 
