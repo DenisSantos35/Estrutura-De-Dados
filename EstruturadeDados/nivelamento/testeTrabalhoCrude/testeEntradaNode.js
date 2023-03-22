@@ -26,20 +26,16 @@ entre a visualização da solução e sua confecção será fundamental para a a
 lógica e da linguagem. Não desistam devido aos erros que enfrentarão, eles deverão ser um
 propulsor para uma melhor aprendizagem.
 */
-
-
-//==================Menu Opcao e escolha de opção=======================
+//############################importacao de biblioteca##################################
 const prompt = require('prompt-sync');
 const input = prompt();
 
 
-let finalisaPrograma = '';
-let cont = 0;
-
+//#########################Menu Opcao e escolha de opção################################
 //=========================logo escola=================================
 function separador(){
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
-    console.log('Bem vindo ao cadastramento da escola fulano de tal.')
+    console.log('                FICHA DE CADASTRO DE ALUNOS')
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
 }
 
@@ -64,24 +60,28 @@ function escolhaOpcao(){
 }
 
 //====================opcao selecionada============================
+let pessoaCadastrada;
 function opcaoSelecionada(numeroOpcao){
     switch(numeroOpcao){
         case 0:
-            break;
         case 1:
-            let pessoaCadastrada = cadastro(cont);
+             pessoaCadastrada = cadastro();
             return pessoaCadastrada;
+        case 2:
+            return relatorioCrescente(pessoaCadastrada);
+
     }
-
 }
+//##############################Fim menu de opçoes#####################################
 
-//---------------------Cadastramento Alunos -------------------------
+//###########################[1]Cadastramento Alunos ######################################
 /*DADOS: Os dados/campos a serem armazenados sobre os alunos são: NOME; RA; IDADE;
 SEXO; MÉDIA e RESULTADO (Aprovado/Reprovado).*/
+
+//=====================Programa principal do cadastramento============================
 let nome, ra, idade, sexo, media, resultado;
 let nomes = []
-function cadastro(){ 
-    
+function cadastro(){    
     do{  
         tratamentoNome();
         tratamenoRa();
@@ -117,6 +117,36 @@ function tratamentoNome(){
         }
     }
 }
+
+//=====================tratamento ra =============================
+let contagem =0;
+function condicaoRa(ra){
+    const verNum = new RegExp('^[0-9]+$')
+    while(ra.length !== 13 || (verNum.test(ra) === false) || (ra[0].repeat(13) === ra)){
+        console.log('[Erro]. Numero de ra invalido.');
+        ra = input('Digite o numero do seu RA: ');
+    }
+    ra = parseInt(ra);
+    return ra
+}
+function tratamenoRa(){
+    ra = input('Digite o numero do RA do aluno: ')
+    ra = condicaoRa(ra);
+    if(nomes.length > 0){
+        contagem++;
+        for(let i = 0; i < nomes.length; i++){
+            while(ra === nomes[i].ra){
+                console.log('[Erro]. Numero de ra já cadastrado');
+                ra = input('Digite o numero do seu RA: ');
+                ra = condicaoRa(ra);
+                i = 0;
+            }            
+        }    
+
+        
+    }
+    return ra;
+}
 //=================tratamento de idade ===========================
 function tratamentoIdade(){
     idade = input('Digite a Idade do Aluno entre [7/100]: ')
@@ -138,24 +168,30 @@ function tratamentoSexo(){
 
 }
 //=====================tratando Média=============================
-
-function tratamentoMedia(){
-    media = input('Digite a média do Aluno entre [0 a 10]:')
-    media = media.split(',')
+function tratamento(media){
+    media = media.split(',');
     if(media.length > 0){
-        media = media.join('.')
+        media = media.join('.');
     }else{
-        media.join('')
+        media.join('');
     }
     media = parseFloat(media);
+    return media
+}
+
+function tratamentoMedia(){
+    media = input('Digite a média do Aluno entre [0 a 10]:');
+    media = tratamento(media);
+
     while(isNaN(media) || (media < 0) || (media > 10)){
         console.log('[ERRO]. Média invalida! Para validar digite uma média entre 0 e 10');
-        media = input('Digite a Idade do Aluno: ');
+        media = input('Digite a média do Aluno: ');
+        media = tratamento(media);
     }
     return media;
 }
 
-//=====================trtamento status aluno =======================
+//=====================tratamento status aluno =======================
 function tratamentoStatus(media){
     resultado=" "
     if(media > 6 ){
@@ -178,8 +214,14 @@ function opcaoUsuario(){
     return false;
 }
 
+//##############################Fim do cadastramento#####################################
 
-//=====================sair do programa =========================
+//######################[2] Relatório de Alunos em ordem crescente por Nome###############
+function relatorioCrescente(array){
+    console.log(array)
+}
+
+//###############################sair do programa #######################################
 function sairPrograma(encerrar){
     encerrar = input('Deseja Sair do Programa').toUpperCase()    
     if(encerrar === 'S'){
@@ -188,8 +230,9 @@ function sairPrograma(encerrar){
         return true;        
     }  
 }
+//################################Fim Sair do programa ###################################
 
-//==================Estrutura Principal=================================
+//#################################Estrutura Principal###################################
 
 let sair;
 
@@ -198,8 +241,8 @@ do{
     separador(); //1 chama o seoaparador
     menuDeOpcoes();
     let opEscolhida = escolhaOpcao();
-
-    console.log('cheguei aqui',opcaoSelecionada(opEscolhida));
+    console.log(opcaoSelecionada(opEscolhida));
+    console.log('acesso pessoas cadstradas', pessoaCadastrada)    
 
 }while(sairPrograma(sair));
 console.log('fim do programa')

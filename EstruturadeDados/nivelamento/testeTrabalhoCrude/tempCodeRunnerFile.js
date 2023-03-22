@@ -1,2 +1,2 @@
 
-}while(sairPrograma(sair));
+    return ra;
