@@ -11,9 +11,9 @@ Se preferir, poderá definir um limite máximo de alunos cadastrados.
 
 TELA DE APRESENTAÇÃO DO PROGRAMA:
 Entre com uma das opções abaixo:
-1. Cadastrar Alunos.
-2. Relatório de Alunos em ordem crescente por Nome.
-3. Relatório de Alunos em ordem decrescente por RA.
+1. Cadastrar Alunos. ok
+2. Relatório de Alunos em ordem crescente por Nome. ok
+3. Relatório de Alunos em ordem decrescente por RA.ok
 4. Relatório de Alunos em ordem crescente por Nome, apenas dos Aprovados.
 5. Encerre a execução do programa.
 OPÇÃO: _____
@@ -39,6 +39,15 @@ function separador(){
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
 }
 
+function separadorEnd(){
+    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
+    console.log('')                
+    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
+}
+function separadorCadastro(){
+    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
+}
+
 //=========================menu opcoes================================
 function menuDeOpcoes(){
     console.log('Digite a opção desejada \n [1] Cadastrar usuario \n [2] Relatório de Alunos em ordem crescente por Nome \n [3] Relatório de Alunos em ordem decrescente por RA \n [4] Relatório de Alunos em ordem crescente por Nome, apenas dos Aprovados \n [5] Encerre a execução do programa');
@@ -51,10 +60,11 @@ function escolhaOpcao(){
     while(isNaN(opcao) || (opcao <= 0) || (opcao > 5) ){
         console.log('Erro. Opção invalida. Digite uma opcao de 1 a 5');
         opcaoUsuario = ''
-        separador()
-        menuDeOpcoes()
-        opcaoUsuario = input('Opção: ');
-        opcao = Number(opcaoUsuario);        
+        separador();
+        menuDeOpcoes() ;      
+        opcaoUsuario = input('Opção: ');        
+        opcao = Number(opcaoUsuario);  
+        separadorEnd();     ; 
     }        
     return opcao; 
 }
@@ -68,7 +78,15 @@ function opcaoSelecionada(numeroOpcao){
              pessoaCadastrada = cadastro();
             return pessoaCadastrada;
         case 2:
-            return relatorioCrescente(pessoaCadastrada);
+            console.log(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome}));
+            return
+        case 3:
+            console.log(relatorio(pessoaCadastrada, (obj1,obj2) =>{return obj1.ra < obj2.ra}))
+            return
+        case 4:
+            relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome})
+            console.log(buscaSequencialObj(pessoaCadastrada,comparaNome))
+            
 
     }
 }
@@ -81,23 +99,24 @@ SEXO; MÉDIA e RESULTADO (Aprovado/Reprovado).*/
 //=====================Programa principal do cadastramento============================
 let nome, ra, idade, sexo, media, resultado;
 let nomes = []
-function cadastro(){    
+function cadastro(){ 
+       
     do{  
+        separadorCadastro()
         tratamentoNome();
         tratamenoRa();
         tratamentoIdade(); 
         tratamentoSexo();
         tratamentoMedia(); 
         tratamentoStatus(media); 
-        nomes.push({'nome': nome, 'ra': ra, 'idade': idade, 'sexo': sexo, 'media': media, 'resultado': resultado});
-        console.log(nomes);    
+        nomes.push({'nome': nome, 'ra': ra, 'idade': idade, 'sexo': sexo, 'media': media, 'resultado': resultado});    
         //cont = cont + 1;   
     }while(opcaoUsuario()) 
     return nomes;            
 }
 //=======================tratando nomes=============================
 function tratamentoNome(){
-    nome = input('Digite o nome').toUpperCase().trim()
+    nome = input('Digite o nome do aluno: ').toUpperCase().trim()
     let novaPalavra = nome.match(/[A-z]/g);
     if(novaPalavra === null){
         console.log('Erro...')
@@ -109,7 +128,6 @@ function tratamentoNome(){
     }else{
         nova = novaPalavra.join('');
         if(nova === nome){
-            console.log(nome)
             return nome;            
         }else if(nova !== nome){
             console.log('Erro...')
@@ -119,7 +137,7 @@ function tratamentoNome(){
 }
 
 //=====================tratamento ra =============================
-let contagem =0;
+let contagem = 0;
 function condicaoRa(ra){
     const verNum = new RegExp('^[0-9]+$')
     while(ra.length !== 13 || (verNum.test(ra) === false) || (ra[0].repeat(13) === ra)){
@@ -141,9 +159,7 @@ function tratamenoRa(){
                 ra = condicaoRa(ra);
                 i = 0;
             }            
-        }    
-
-        
+        }       
     }
     return ra;
 }
@@ -217,9 +233,31 @@ function opcaoUsuario(){
 //##############################Fim do cadastramento#####################################
 
 //######################[2] Relatório de Alunos em ordem crescente por Nome###############
-function relatorioCrescente(array){
-    console.log(array)
+function relatorio(array,funOrd){
+    // [ 1, 2 ,3 4, 5, 6, 7, 8]
+    if(array === undefined){
+        return 'Não há alunos cadastrado. Por favor cadastre alunos para gerar o relatorio.'
+    }else{
+        for(let ini = 0; ini < array.length - 1; ini++){
+            let menor = ini + 1;
+            for(let i = menor + 1; i < array.length; i++){
+                if(funOrd(array[menor],array[i])){
+                    menor = i;
+                }
+            }
+            if(funOrd(array[ini],array[menor])){
+                [array[ini],array[menor]] = [array[menor], array[ini]]
+            }
+        }
+        return pessoaCadastrada 
+    }
+       
 }
+
+
+
+//#####################[3] Relatório de Alunos em ordem decrescente por RA. #############
+
 
 //###############################sair do programa #######################################
 function sairPrograma(encerrar){
@@ -241,8 +279,9 @@ do{
     separador(); //1 chama o seoaparador
     menuDeOpcoes();
     let opEscolhida = escolhaOpcao();
-    console.log(opcaoSelecionada(opEscolhida));
-    console.log('acesso pessoas cadstradas', pessoaCadastrada)    
+    separadorEnd()
+    opcaoSelecionada(opEscolhida);
+    //console.log('acesso pessoas cadstradas', pessoaCadastrada)    
 
 }while(sairPrograma(sair));
 console.log('fim do programa')

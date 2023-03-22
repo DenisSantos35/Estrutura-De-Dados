@@ -2,7 +2,7 @@
 // let array = [11,22,33,44,55,66,77,88,99];
 // console.log(buscaSequencial(array,100))
 
-function buscaSequencial(array, valor){
+function buscaBinaria(array, valor){
     let ini = 0;
     let fim = array.length - 1
     while(fim >= ini){
@@ -20,4 +20,4 @@ function buscaSequencial(array, valor){
 
 import {nomes} from './data/vetor-nomes.mjs'
 
-console.log(buscaSequencial(nomes, 'JOYCE'));
+console.log(buscaBinaria(nomes, 'JOYCE'));
