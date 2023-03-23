@@ -92,7 +92,8 @@ function opcaoSelecionada(numeroOpcao){
                 return;
             }
         case 5:
-            
+
+        
             
             
 
