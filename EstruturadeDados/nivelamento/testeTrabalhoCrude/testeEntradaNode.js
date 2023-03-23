@@ -30,22 +30,18 @@ propulsor para uma melhor aprendizagem.
 const prompt = require('prompt-sync');
 const input = prompt();
 
-
+let msg = ''
 //#########################Menu Opcao e escolha de opção################################
 //=========================logo escola=================================
-function separador(){
+function separador(msg){
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
-    console.log('                FICHA DE CADASTRO DE ALUNOS')
+    console.log(`             ${msg}                                `)
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
 }
 
+
 function separadorEnd(){
-    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
-    console.log('')                
-    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
-}
-function separadorCadastro(){
-    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')
+    console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')    
 }
 
 //=========================menu opcoes================================
@@ -60,7 +56,7 @@ function escolhaOpcao(){
     while(isNaN(opcao) || (opcao <= 0) || (opcao > 5) ){
         console.log('Erro. Opção invalida. Digite uma opcao de 1 a 5');
         opcaoUsuario = ''
-        separador();
+        separador(msg='FICHA DE CADASTRO DE ALUNOS');
         menuDeOpcoes() ;      
         opcaoUsuario = input('Opção: ');        
         opcao = Number(opcaoUsuario);  
@@ -75,17 +71,29 @@ function opcaoSelecionada(numeroOpcao){
     switch(numeroOpcao){
         case 0:
         case 1:
+            separador(msg='CADASTRAR ALUNO');
              pessoaCadastrada = cadastro();
             return pessoaCadastrada;
         case 2:
+            separador(msg='RELATORIO NOMES ORDEM CRESCENTE');
             console.log(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome}));
             return
         case 3:
+            separador(msg='RELATORIO RA ORDEM DECRESCENTE');
             console.log(relatorio(pessoaCadastrada, (obj1,obj2) =>{return obj1.ra < obj2.ra}))
             return
         case 4:
-            relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome})
-            console.log(buscaSequencialObj(pessoaCadastrada,comparaNome))
+            separador(msg='RELATORIO ALUNOS APROVADOS');
+            if(pessoaCadastrada === undefined){
+                console.log('Não há alunos cadastrado. Por favor cadastre alunos para gerar o relatorio.')
+                return; 
+            }else{
+                console.log(filtroAprovados(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome})));
+                return;
+            }
+        case 5:
+            
+            
             
 
     }
@@ -102,7 +110,7 @@ let nomes = []
 function cadastro(){ 
        
     do{  
-        separadorCadastro()
+        
         tratamentoNome();
         tratamenoRa();
         tratamentoIdade(); 
@@ -224,15 +232,18 @@ function opcaoUsuario(){
     usuario = input('Deseja Cadastrar outro Aluno? [S/N] ou [s/n]').toUpperCase().trim()
     if(usuario === 'S'){
         usuario = ''
+        separadorEnd()
         return true;
     }
     usuario = ''
+    separadorEnd()
     return false;
 }
 
 //##############################Fim do cadastramento#####################################
 
 //######################[2] Relatório de Alunos em ordem crescente por Nome###############
+//######################[3] Relatório de Alunos em ordem crescente por Nome###############
 function relatorio(array,funOrd){
     // [ 1, 2 ,3 4, 5, 6, 7, 8]
     if(array === undefined){
@@ -253,10 +264,19 @@ function relatorio(array,funOrd){
     }
        
 }
+//#######################[4] Relatório de Alunos em ordem crescente por Nome, apenas dos Aprovados#########
 
+function filtroAprovados(array){  
+    let novoArray = [];  
+    for(let i = 0; i < array.length; i++){
+        if(array[i].resultado === 'Aprovado'){
+            novoArray.push(array[i])
+        }
+    }
+    return novoArray
+    
 
-
-//#####################[3] Relatório de Alunos em ordem decrescente por RA. #############
+}
 
 
 //###############################sair do programa #######################################
@@ -276,7 +296,7 @@ let sair;
 
 do{
     sair = false;
-    separador(); //1 chama o seoaparador
+    separador(msg='FICHA DE CADASTRO DE ALUNOS'); //1 chama o seoaparador
     menuDeOpcoes();
     let opEscolhida = escolhaOpcao();
     separadorEnd()
