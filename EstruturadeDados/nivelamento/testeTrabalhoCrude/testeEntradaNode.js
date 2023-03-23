@@ -92,11 +92,7 @@ function opcaoSelecionada(numeroOpcao){
                 return;
             }
         case 5:
-
-        
             
-            
-
     }
 }
 //##############################Fim menu de opçoes#####################################
@@ -304,7 +300,7 @@ do{
     opcaoSelecionada(opEscolhida);
     //console.log('acesso pessoas cadstradas', pessoaCadastrada)    
 
-}while(sairPrograma(sair));
+}while(opEscolhida === '5');
 console.log('fim do programa')
 
 
