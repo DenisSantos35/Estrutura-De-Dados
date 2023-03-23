@@ -43,6 +43,9 @@ function separador(msg){
 function separadorEnd(){
     console.log('=~=~=~==~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=')    
 }
+function separadorRelatorio(){
+    console.log('************************')
+}
 
 //=========================menu opcoes================================
 function menuDeOpcoes(){
@@ -68,6 +71,7 @@ function escolhaOpcao(){
 //====================opcao selecionada============================
 let pessoaCadastrada;
 function opcaoSelecionada(numeroOpcao){
+    let pessoas;
     switch(numeroOpcao){
         case 0:
         case 1:
@@ -75,12 +79,14 @@ function opcaoSelecionada(numeroOpcao){
              pessoaCadastrada = cadastro();
             return pessoaCadastrada;
         case 2:
-            separador(msg='RELATORIO NOMES ORDEM CRESCENTE');
-            console.log(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome}));
+            separador(msg='RELATORIO NOMES ORDEM CRESCENTE');            
+            pessoas = relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome})
+            mensagemRelatorio(pessoas)
             return
         case 3:
             separador(msg='RELATORIO RA ORDEM DECRESCENTE');
-            console.log(relatorio(pessoaCadastrada, (obj1,obj2) =>{return obj1.ra < obj2.ra}))
+            pessoas = relatorio(pessoaCadastrada, (obj1,obj2) =>{return obj1.ra < obj2.ra})
+            mensagemRelatorio(pessoas);            
             return
         case 4:
             separador(msg='RELATORIO ALUNOS APROVADOS');
@@ -88,14 +94,29 @@ function opcaoSelecionada(numeroOpcao){
                 console.log('Não há alunos cadastrado. Por favor cadastre alunos para gerar o relatorio.')
                 return; 
             }else{
-                console.log(filtroAprovados(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome})));
+                pessoas = filtroAprovados(relatorio(pessoaCadastrada, (obj1,obj2)=> {return obj1.nome > obj2.nome}));
+                mensagemRelatorio(pessoas)
                 return;
             }
         case 5:
+            sair = sairPrograma(sair) 
+            return;
             
     }
 }
 //##############################Fim menu de opçoes#####################################
+//##############################mensagem relatorio#####################################
+function mensagemRelatorio(pessoas){
+    for(let i=0; i<pessoas.length;i++){
+        console.log(`NOME: ${pessoas[i].nome}`);
+        console.log(`RA: ${pessoas[i].ra}`);
+        console.log(`IDADE: ${pessoas[i].idade}`);
+        console.log(`SEXO: ${pessoas[i].sexo}`);
+        console.log(`MEDIA: ${pessoas[i].media}`);
+        console.log(`RESULTADO: ${pessoas[i].resultado}`);
+        separadorRelatorio()
+    }
+}
 
 //###########################[1]Cadastramento Alunos ######################################
 /*DADOS: Os dados/campos a serem armazenados sobre os alunos são: NOME; RA; IDADE;
@@ -131,6 +152,7 @@ function tratamentoNome(){
         tratamentoNome();
 
     }else{
+        console.log(nova)
         nova = novaPalavra.join('');
         if(nova === nome){
             return nome;            
@@ -227,6 +249,10 @@ function tratamentoStatus(media){
 // ============Mensagem se Deseja cadastrar mais alunos===========
 function opcaoUsuario(){
     usuario = input('Deseja Cadastrar outro Aluno? [S/N] ou [s/n]').toUpperCase().trim()
+    while(usuario !=='S' && usuario!=='N'){
+        console.log('[ERRO]...digite [S] para Sim ou [N] para Não')
+        usuario = input('Deseja Cadastrar outro Aluno? [S/N] ou [s/n]').toUpperCase().trim()
+    }
     if(usuario === 'S'){
         usuario = ''
         separadorEnd()
@@ -234,7 +260,7 @@ function opcaoUsuario(){
     }
     usuario = ''
     separadorEnd()
-    return false;
+    // return sair = false;
 }
 
 //##############################Fim do cadastramento#####################################
@@ -292,7 +318,7 @@ function sairPrograma(encerrar){
 let sair;
 
 do{
-    sair = false;
+    sair = true;
     separador(msg='FICHA DE CADASTRO DE ALUNOS'); //1 chama o seoaparador
     menuDeOpcoes();
     let opEscolhida = escolhaOpcao();
@@ -300,7 +326,7 @@ do{
     opcaoSelecionada(opEscolhida);
     //console.log('acesso pessoas cadstradas', pessoaCadastrada)    
 
-}while(opEscolhida === '5');
+}while(sair === true);
 console.log('fim do programa')
 
 
