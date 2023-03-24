@@ -145,21 +145,21 @@ function tratamentoNome(){
     nome = input('Digite o nome do aluno: ').toUpperCase().trim()
     let novaPalavra = nome.match(/[A-z]/g);
     if(novaPalavra === null){
-        console.log('Erro...')
+        console.log('Erro...Digite um nome valido')
         tratamentoNome()
     }else if(nome === nome[0].repeat(nome.length)){1
-        console.log('Erro...');
+        console.log('Erro... Digite um nome valido');
         tratamentoNome();
 
     }else{
-        console.log(nova)
-        nova = novaPalavra.join('');
+        let nova = novaPalavra.join('');        
         if(nova === nome){
             return nome;            
         }else if(nova !== nome){
             console.log('Erro...')
             tratamentoNome();
         }
+        
     }
 }
 
