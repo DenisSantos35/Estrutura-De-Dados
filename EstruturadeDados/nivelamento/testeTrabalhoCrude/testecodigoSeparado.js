@@ -1,8 +1,9 @@
-const prompt = require('prompt-sync')
-const input = prompt();
+// const prompt = require('prompt-sync')
+// const input = prompt();
 
+const input = require('readline-sync')
 
-console.log(pessoaCadastrada)
+const nome = input.question('ola')
 
 
 
