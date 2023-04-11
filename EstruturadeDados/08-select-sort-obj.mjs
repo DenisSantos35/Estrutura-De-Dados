@@ -1,24 +1,61 @@
-import {objMotoristas} from './data/motoristas-obj-desord.mjs'
+let pass, comps, trocas
 
-function selectSort(array, funOrd){ //recebe array, recebe funcao
-    //para inicio = 0 e enquanto inicio for menor que array.length(39000) inicio icrementa
-    for(let ini = 0; ini < array.length - 1; ini++){
-        let menor = ini + 1; //captura o primeiro elemento
-        for(let i = menor + 1; i < array.length; i++){ //i inicia com valor armazenado em menor + 1 ate 40000
-            if(funOrd(array[menor], array[i])){ //envia o array na posicao menor, e array na posicao i
-                                                //caso seja menor realiza este bloco
-                menor = i; // menor recebe o valor da posição i
-            }
+function selectionSort(vetor, fnComp) {
+
+    pass = 0, comps = 0, trocas = 0
+
+    // Loop posSel vai até a PENÚLTIMA posição do vetor
+    for(let posSel = 0; posSel < vetor.length - 1; posSel++) {
+        pass++
+
+        let posMenor = posSel + 1
+
+        // Loop para procurar o menor valor no restante do vetor
+        for(let i = posMenor + 1; i < vetor.length; i++) {
+            // if(vetor[posMenor] > vetor[i]) posMenor = i
+            if(fnComp(vetor[posMenor], vetor[i])) posMenor = i
+            comps++
         }
-        if(funOrd(array[ini],array[menor])){ //terminado o for faz a comparacao do menor valor armazenado e o primeiro valor
-            [array[ini],array[menor]] = [array[menor],array[ini]] //por desconstrucao caso o array ini seja maior que array menor faz a troca
+
+        // Se o valor em posMenor for menor que o valor em posSel,
+        // efetua a troca
+        comps++
+        // if(vetor[posSel] > vetor[posMenor]) {
+        if(fnComp(vetor[posSel], vetor[posMenor])) {
+            [ vetor[posSel], vetor[posMenor] ] = [ vetor[posMenor], vetor[posSel] ]
+            trocas++
         }
+
     }
+
 }
 
-console.time('start: ')
-//recebe no obj1 = array posicao menor, obj2 = array na posicao i
-selectSort(objMotoristas, (obj1, obj2) => { return obj1.nome_motorista > obj2.nome_motorista}); //faz comparacao dos nomes do motorista
-console.timeEnd('finish: ')
-console.log(objMotoristas)
+import { objMotoristas } from './data/motoristas-obj-desord.mjs'
 
+console.time('Tempo de ordenação')
+
+// Ordenando por nome_motorista
+//selectionSort(objMotoristas, (elem1, elem2) => elem1.nome_motorista > elem2.nome_motorista)
+
+// Ordenando por nome_motorista em ordem DECRESCENTE
+// selectionSort(objMotoristas, (elem1, elem2) => elem1.nome_motorista < elem2.nome_motorista)
+
+// Ordenando por nome_motorista em ordem DECRESCENTE ignorando acentos
+// selectionSort(objMotoristas, (elem1, elem2) => elem1.nome_motorista.localeCompare(elem2.nome_motorista, 'pt-br') <= 0)  // LEEEEENTO
+
+// Ordenação em dois níveis: primeiro por razao_social e depois por nome_motorista
+selectionSort(objMotoristas, (elem1, elem2) => {
+    if(elem1.razao_social === elem2.razao_social) {     // Mesma empresa
+        // Desempate é feito pelo nome do motorista
+        return elem1.nome_motorista > elem2.nome_motorista
+    }
+    // Empresas diferentes, comparação direta de razao_social
+    else return elem1.razao_social > elem2.razao_social
+})
+
+let memoriaMB = process.memoryUsage().heapUsed / 1024 / 1024
+
+console.timeEnd('Tempo de ordenação')
+
+console.log(objMotoristas)
+console.log({pass, comps, trocas, memoriaMB})

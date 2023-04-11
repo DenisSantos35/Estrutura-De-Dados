@@ -1,11 +1,8 @@
 //           0 1 2  3  4 5  6 7
-function separador(){
-    console.log('------------------------------')
-}
 
 let array = [7,3,2,16,24,4,11,9]
 //console.log(array)
-separador()
+
 function mergeSort(array){
     
     if(array.length < 2){
@@ -19,9 +16,6 @@ function mergeSort(array){
     //console.log(`posicao ${arrayEsq.length}, [${arrayEsq}]`)
 
     let arrayDir = array.slice(meio)
-    
-    separador()
-    
     
     arrayEsq = mergeSort(arrayEsq)
     
