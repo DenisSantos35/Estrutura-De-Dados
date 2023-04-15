@@ -19,12 +19,9 @@ function selectionSort(vetor, fnComp) {
             
           }
           if(fnComp(vetor[posSel], vetor[posMenor])) {
-            [ vetor[posSel], vetor[posMenor] ] = [ vetor[posMenor], vetor[posSel] ]
-            
-          }
-  
-      }
-  
+            [ vetor[posSel], vetor[posMenor] ] = [ vetor[posMenor], vetor[posSel] ]            
+          }  
+      }  
   }
   
   selectionSort(nomes, (elem1, elem2) => {
@@ -72,20 +69,26 @@ function selectionSort(vetor, fnComp) {
 
   */
 
-let alexandre = buscaBinaria(nomes, comparacao, 'ALEXANDRE');
-console.log(alexandre)
+// let alexandre = buscaBinaria(nomes, comparacao, 'ALEXANDRE');
+// console.log(alexandre)
 
-let maria = buscaBinaria(nomes, comparacao, 'MARIA')
-console.log(maria)
+// let maria = buscaBinaria(nomes, comparacao, 'MARIA')
+// console.log(maria)
 
-let marcos = buscaBinaria(nomes, comparacao, 'MARCOS')
-console.log(marcos)
+// let marcos = buscaBinaria(nomes, comparacao, 'MARCOS')
+// console.log(marcos)
 
-let carlos = buscaBinaria(nomes, comparacao, 'CARLOS')
-console.log(carlos)
+// let carlos = buscaBinaria(nomes, comparacao, 'CARLOS')
+// console.log(carlos)
 
-let ana = buscaBinaria(nomes, comparacao, 'ANA')
-console.log(ana)
+// let ana = buscaBinaria(nomes, comparacao, 'ANA')
+// console.log(ana)
 
-let felizbertino = buscaBinaria(nomes, comparacao, 'FELIZBERTINO')
-console.log(felizbertino)
+// let felizbertino = buscaBinaria(nomes, comparacao, 'FELIZBERTINO')
+// console.log(felizbertino)
+
+let nom = ['ALEXANDRE', 'MARIA','MARCOS','CARLOS','ANA','FELIZBERTINO' ]
+
+for (let i of nom){
+  console.log(buscaBinaria(nomes, comparacao, i));
+}

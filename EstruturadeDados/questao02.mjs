@@ -19,32 +19,32 @@
 //h = pos esquerdo
 //i = pos direito
 function f(p) {
-    if(p.length > 2){ 
+    if(p.length > 2){ //se o tamanho for menor que 2. X
         return p
     }
-    let p = 2    //não é necessário a declaração desta variável pois ja é atributo da funçao, ou seja o array a ser recebido na função
-    let o = Math.floor(p.length / p) //no lugar do p deveria ser 2
+    let p = 2    //não é necessário a declaração desta variável pois ja é atributo da funçao, ou seja o array a ser recebido na função OK
+    let o = Math.floor(p.length / p) //no lugar do p deveria ser 2 ok
     let l = p.slice(0, o) 
     let r = p.slice(o)
-    l = f(l, f) // erro passando funcao dentro da funcao, e preciso apenas o array esquerdo (l)
-    r = f(r, f) // erro passando funcao dentro da funcao, e preciso apenas o array direito (r)
+    l = f(l, f) // erro passando funcao dentro da funcao, e preciso apenas o array esquerdo (l) Ok
+    r = f(r, f) // erro passando funcao dentro da funcao, e preciso apenas o array direito (r) Ok
 
     
-    let h = 0, i = 0, k = []
+    let h = 0, i = 0, k = [] 
     while(h < l.length && i < r.length) {
-        if(l[h] > r[i]) { 
-            k.insert(l[h]) // deveria ser push ao inves de insert
+        if(l[h] > r[i]) { // deveria ser cressente X
+            k.insert(l[h]) // deveria ser push ao inves de insert ok
             h++
         } else {
-            k.insert(r[i]) // deveria ser push ao inves de insert
+            k.insert(r[i]) // deveria ser push ao inves de insert ok
             i++
         }
     }
     let m
     if(h < i) {
-        m = l.splice(h) //comando correto seria slice e nao splice
+        m = l.splice(h) //comando correto seria slice e nao splice ok
     } else {
-        m = r.splice(i) //comando correto seria slice e nao splice
+        m = r.splice(i) //comando correto seria slice e nao splice ok
     }
-    m = [...k, ...m] //no lugar do m deveria ser um return para retornar o array ordenado
+    m = [...k, ...m] //no lugar do m deveria ser um return para retornar o array ordenado ok
 }
