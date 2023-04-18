@@ -1,0 +1,26 @@
+let array = [9,2,5,7,1,6,3,4];
+
+function quickSort(vetor, ini=0, fim = array.length - 1){
+    
+    if(fim <= ini) return;
+    const pivo = fim;
+    let divisao = ini -1;
+
+    for(let i=ini; i <= fim -1; i++){
+        if(vetor[pivo] > vetor[i] ){
+            divisao++;
+            if(divisao !== i){
+                [vetor[i], vetor[divisao]] = [vetor[divisao], vetor[i]];
+            }
+        }
+    }
+    divisao++;
+    if(vetor[divisao] > vetor[pivo] && divisao !== pivo){
+        [vetor[divisao], vetor[pivo]] = [vetor[pivo], vetor[divisao]];
+    }
+    quickSort(vetor, ini, divisao - 1);
+    quickSort(vetor, divisao + 1, fim);
+}
+
+quickSort(array);
+console.log(array);
