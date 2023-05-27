@@ -51,6 +51,78 @@ export default class linkedList{
             inserted.next = this.#head;
             this.#head = inserted;
         }
+
+        //3º caso: inserção no final da lista
+        else if(pos >= this.#count){
+            this.#tail.next = inserted;
+            this.#teil = inserted;
+        }
+
+        //4º caso: posição intermediaria
+        else{
+            //nodo da posição anterior á de inserção
+            let before = this.#head; //começa pelo primeiro
+
+            //percorrer os nodos            
+            for(let i = 1; i < pos; i++){
+                before = before.next;
+            }
+
+            //Nodo posterior a de insercao
+            let after = before.next;
+
+            inserted.next = after;
+
+            before.next = inserted;
+        }
+        this.#count++;
+    }
+    //metodo para inserir na ultima posição (atalho)
+    insertHead(val){
+        this.insert(0, val);
+    }
+
+    //metodo para inserir na ultima posicao (atalho)
+    insertedTail(val){
+        this.insert(this.#count, val);
+    }
+
+    //metodo de remoção de um nodo da lista
+    remove(pos){
+
+        //1º caso: a lista esta vazia ou a posição informada
+        //está fora dos limites da lista
+        if(this.isEmpty || pos < 0 || pos > this.#count - 1) return undefined;
+
+        let removed;
+        //2º caso: remoçao no inicio da lista o head
+        if(pos === 0){
+            removed = this.#head
+            this.#head = this.#head.next;
+
+            //atualizando o tail em caso de remoção do unico nodo restante
+            if(this.#count === 1){
+                this.#tail = null;
+            }
+        }
+
+        //3º caso: reo=moção do nodo intermediario de nodo intermediário ou final
+        else{
+            let before = this.#head;
+
+            //percorre a lista até a posição anterior á da inserção
+            for(let i = 1; i < pos; i++){
+                before = before.next;
+            }
+
+            //o nodo removido srá o seguinte
+            removed = before.next;
+
+            let after = removed.next;
+            before.next = after;
+        }
+
+        this.#count--;
     }
 
 }
