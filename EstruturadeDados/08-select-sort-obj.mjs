@@ -5,7 +5,7 @@ function selectionSort(vetor, fnComp) {
     pass = 0, comps = 0, trocas = 0
 
     // Loop posSel vai até a PENÚLTIMA posição do vetor
-    for(let posSel = 0; posSel < vetor.length - 1; posSel++) {
+    for(let posSel = 0; posSel < vetor.length - 1; posSel++) {  //[3, 7, 4, 2, 9, 5]
         pass++
 
         let posMenor = posSel + 1
